@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/user/update")
     public String update(@Valid UserRequest.UpdateDTO updateDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        // update user_tb set password = ?, email = ? where id = ?
+        // update user_tb set password = ?, email = ?, where id = ?
         User userPS = userService.회원정보수정(updateDTO, sessionUser.getId());
         // 세션 동기화
         session.setAttribute("sessionUser", userPS);
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid UserRequest.JoinDTO joinDTO, Errors errors) {
+    public String join(@Valid UserRequest.JoinDTO reqDTO, Errors errors) {
 //        boolean r1 = Pattern.matches("^[a-zA-Z0-9]{2,20}$", joinDTO.getUsername());
 //        boolean r2 = Pattern.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()])[a-zA-Z\\d!@#$%^&*()]{6,20}$", joinDTO.getPassword());
 //        boolean r3 = Pattern.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$", joinDTO.getEmail());
@@ -58,7 +58,7 @@ public class UserController {
 //        if (!r2) throw new Exception400("패스워드는 4-20자이며, 특수문자,영어 대문자,소문자, 숫자가 포함되어야 하며, 공백이 있을 수 없습니다");
 //        if (!r3) throw new Exception400("이메일 형식에 맞게 적어주세요");
 
-        userService.회원가입(joinDTO);
+        UserResponse.DTO respDTO = userService.회원가입(reqDTO);
         return "redirect:/login-form";
     }
 
