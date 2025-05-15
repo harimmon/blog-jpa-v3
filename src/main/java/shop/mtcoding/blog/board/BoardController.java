@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import shop.mtcoding.blog._core.util.Resp;
 import shop.mtcoding.blog.user.User;
 
-@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 public class BoardController {
