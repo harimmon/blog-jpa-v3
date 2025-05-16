@@ -26,7 +26,7 @@ public class UserService {
         reqDTO.setPassword(encPassword);
 
         Optional<User> userOP = userRepository.findByUsername(reqDTO.getUsername());
-        if (userOP.isPresent()) throw new ExceptionApi400("동일한 유저네임이 존재합니다.");
+        if (userOP.isPresent()) throw new ExceptionApi400("중복된 유저네임이 존재합니다");
 
         User userPS = userRepository.save(reqDTO.toEntity());
         return new UserResponse.DTO(userPS);

@@ -5,28 +5,24 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blog.MyRestDoc;
 import shop.mtcoding.blog._core.util.JwtUtil;
 import shop.mtcoding.blog.love.LoveRequest;
 import shop.mtcoding.blog.user.User;
 
 @Transactional
-@AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class LoveControllerTest {
+public class LoveControllerTest extends MyRestDoc {
 
     @Autowired
     private ObjectMapper om;
-
-    @Autowired
-    private MockMvc mvc;
 
     private String accessToken;
 
@@ -48,7 +44,7 @@ public class LoveControllerTest {
     }
 
     @Test
-    public void saveLove_test() throws Exception {
+    public void save_love_test() throws Exception {
         // given
         LoveRequest.SaveDTO reqDTO = new LoveRequest.SaveDTO();
         reqDTO.setBoardId(3);
@@ -74,10 +70,12 @@ public class LoveControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.loveId").value(4));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.loveCount").value(1));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+
     }
 
     @Test
-    public void deleteLove_test() throws Exception {
+    public void delete_love_test() throws Exception {
         // given
         Integer id = 1;
 
@@ -96,5 +94,7 @@ public class LoveControllerTest {
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.body.loveCount").value(0));
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+
     }
 }
